@@ -25,12 +25,18 @@ function escapeHtml(s) {
   return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
+function getRandomQuestions(suggestions, count = 5) {
+  const shuffled = [...suggestions].sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, Math.min(count, shuffled.length));
+}
+
 function buildChatPage(exam) {
   const template = read('src/chat-template.html');
   const css = read('src/chat-style.css');
   const js = read('src/chat-app.js');
 
-  const suggestionsHtml = exam.suggestions
+  const selectedQuestions = getRandomQuestions(exam.suggestions, 5);
+  const suggestionsHtml = selectedQuestions
     .map((s) => `      <button class="suggestion-chip" onclick="sendSuggestion(this)">${escapeHtml(s)}</button>`)
     .join('\n');
 
