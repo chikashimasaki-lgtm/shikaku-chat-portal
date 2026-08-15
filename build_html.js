@@ -34,6 +34,15 @@ function buildChatPage(exam) {
     .map((s) => `      <button class="suggestion-chip" onclick="sendSuggestion(this)">${escapeHtml(s)}</button>`)
     .join('\n');
 
+  const chaptersHtml = exam.chapters
+    .map(
+      (name, i) => `          <button class="chapter-item" onclick="sendChapter(this)">
+            <span class="chapter-num">${i + 1}</span>
+            <span class="chapter-name">${escapeHtml(name)}</span>
+          </button>`
+    )
+    .join('\n');
+
   let html = template
     .replace('/*__CHAT_STYLE__*/', () => css)
     .replace('/*__CHAT_APP__*/', () => js)
@@ -43,6 +52,7 @@ function buildChatPage(exam) {
     .replace(/\{\{THEME_COLOR\}\}/g, exam.themeColor)
     .replace(/\{\{WELCOME_HEADLINE\}\}/g, exam.welcomeHeadline)
     .replace(/\{\{WELCOME_BODY\}\}/g, exam.welcomeBody)
+    .replace('{{CHAPTERS_HTML}}', chaptersHtml)
     .replace('{{SUGGESTIONS_HTML}}', suggestionsHtml)
     .replace(/\{\{EXAM_ID\}\}/g, exam.id)
     .replace(/\{\{GAS_WEBAPP_URL\}\}/g, config.GAS_WEBAPP_URL)

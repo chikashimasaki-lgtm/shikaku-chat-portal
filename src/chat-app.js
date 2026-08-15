@@ -31,6 +31,12 @@ function sendSuggestion(btn) {
   sendMessage();
 }
 
+function sendChapter(el) {
+  const name = el.querySelector('.chapter-name').textContent.trim();
+  document.getElementById('userInput').value = name + 'について教えて';
+  sendMessage();
+}
+
 async function sendMessage() {
   if (isLoading) return;
   const input = document.getElementById('userInput');
