@@ -25,20 +25,10 @@ function escapeHtml(s) {
   return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
-function getRandomQuestions(suggestions, count = 5) {
-  const shuffled = [...suggestions].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, Math.min(count, shuffled.length));
-}
-
 function buildChatPage(exam) {
   const template = read('src/chat-template.html');
   const css = read('src/chat-style.css');
   const js = read('src/chat-app.js');
-
-  const selectedQuestions = getRandomQuestions(exam.suggestions, 5);
-  const suggestionsHtml = selectedQuestions
-    .map((s) => `      <button class="suggestion-chip" onclick="sendSuggestion(this)">${escapeHtml(s)}</button>`)
-    .join('\n');
 
   const chaptersHtml = exam.chapters
     .map(
@@ -59,7 +49,7 @@ function buildChatPage(exam) {
     .replace(/\{\{WELCOME_HEADLINE\}\}/g, exam.welcomeHeadline)
     .replace(/\{\{WELCOME_BODY\}\}/g, exam.welcomeBody)
     .replace('{{CHAPTERS_HTML}}', chaptersHtml)
-    .replace('{{SUGGESTIONS_HTML}}', suggestionsHtml)
+    .replace('{{SUGGESTIONS_JSON}}', () => JSON.stringify(exam.suggestions).replace(/</g, '\\u003c'))
     .replace(/\{\{EXAM_ID\}\}/g, exam.id)
     .replace(/\{\{GAS_WEBAPP_URL\}\}/g, config.GAS_WEBAPP_URL)
     .replace(/\{\{SHARED_SECRET\}\}/g, config.SHARED_SECRET);

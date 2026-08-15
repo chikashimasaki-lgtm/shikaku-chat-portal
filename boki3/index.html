@@ -378,13 +378,7 @@ textarea::placeholder { color: #bbb; }
         </div>
       </div>
 
-      <div class="suggestions" id="suggestions">
-      <button class="suggestion-chip" onclick="sendSuggestion(this)">売上原価の計算方法は？</button>
-      <button class="suggestion-chip" onclick="sendSuggestion(this)">商品売買の記録方法は？</button>
-      <button class="suggestion-chip" onclick="sendSuggestion(this)">精算表の作り方は？</button>
-      <button class="suggestion-chip" onclick="sendSuggestion(this)">現金と小切手の扱いについて教えて</button>
-      <button class="suggestion-chip" onclick="sendSuggestion(this)">定額法による減価償却の計算は？</button>
-      </div>
+      <div class="suggestions" id="suggestions"></div>
     </div>
   </div>
 
@@ -404,11 +398,28 @@ textarea::placeholder { color: #bbb; }
   const GAS_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyRmJ0BUzllzyP5nVPzz5kbzddOmMrbFiII28HgFrNuGxBRLrvQYf3qDu0y_4pXGcHX/exec';
   const SHARED_SECRET = 'KsXaOFyluiW9omxeR1xjUjKvtNN4jPGH';
   const EXAM_ID = 'boki3';
-// GAS_WEBAPP_URL / SHARED_SECRET / EXAM_ID は build_html.js がビルド時にこのファイルの
-// 直前へ `const GAS_WEBAPP_URL = '...';` 等として注入する。
+  const ALL_SUGGESTIONS = ["貸倒引当金の仕訳は？","精算表の作り方は？","売上原価の計算方法は？","仕訳の基本を教えてください","貸借対照表と損益計算書の違いは？","現金と小切手の扱いについて教えて","商品売買の記録方法は？","定額法による減価償却の計算は？","決算整理仕訳について説明してください","固定資産の処理方法を教えてください"];
+// GAS_WEBAPP_URL / SHARED_SECRET / EXAM_ID / ALL_SUGGESTIONS は build_html.js がビルド時に
+// このファイルの直前へ `const GAS_WEBAPP_URL = '...';` 等として注入する。
 
 let isLoading = false;
 let history = []; // 会話履歴 [{ role:'user'|'bot', text }]
+
+// サジェスト質問はビルド時ではなく、ここ（訪問者のブラウザ）で毎回ランダムに5問選ぶ。
+// GitHub Pagesは静的サイトで、ビルド時に選ぶと次のデプロイまで全訪問者に同じ5問が
+// 固定表示されてしまうため。
+function renderSuggestions(all, count) {
+  const box = document.getElementById('suggestions');
+  const picked = [...all].sort(() => Math.random() - 0.5).slice(0, count);
+  picked.forEach((text) => {
+    const btn = document.createElement('button');
+    btn.className = 'suggestion-chip';
+    btn.textContent = text;
+    btn.onclick = () => sendSuggestion(btn);
+    box.appendChild(btn);
+  });
+}
+renderSuggestions(ALL_SUGGESTIONS, 5);
 
 const WELCOME_HTML = document.getElementById('messages').innerHTML;
 

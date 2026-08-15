@@ -1,8 +1,24 @@
-// GAS_WEBAPP_URL / SHARED_SECRET / EXAM_ID は build_html.js がビルド時にこのファイルの
-// 直前へ `const GAS_WEBAPP_URL = '...';` 等として注入する。
+// GAS_WEBAPP_URL / SHARED_SECRET / EXAM_ID / ALL_SUGGESTIONS は build_html.js がビルド時に
+// このファイルの直前へ `const GAS_WEBAPP_URL = '...';` 等として注入する。
 
 let isLoading = false;
 let history = []; // 会話履歴 [{ role:'user'|'bot', text }]
+
+// サジェスト質問はビルド時ではなく、ここ（訪問者のブラウザ）で毎回ランダムに5問選ぶ。
+// GitHub Pagesは静的サイトで、ビルド時に選ぶと次のデプロイまで全訪問者に同じ5問が
+// 固定表示されてしまうため。
+function renderSuggestions(all, count) {
+  const box = document.getElementById('suggestions');
+  const picked = [...all].sort(() => Math.random() - 0.5).slice(0, count);
+  picked.forEach((text) => {
+    const btn = document.createElement('button');
+    btn.className = 'suggestion-chip';
+    btn.textContent = text;
+    btn.onclick = () => sendSuggestion(btn);
+    box.appendChild(btn);
+  });
+}
+renderSuggestions(ALL_SUGGESTIONS, 5);
 
 const WELCOME_HTML = document.getElementById('messages').innerHTML;
 
