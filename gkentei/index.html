@@ -378,11 +378,7 @@ textarea::placeholder { color: #bbb; }
         </div>
       </div>
 
-      <div class="suggestions" id="suggestions">
-      <button class="suggestion-chip" onclick="sendSuggestion(this)">過学習とは？</button>
-      <button class="suggestion-chip" onclick="sendSuggestion(this)">Transformerの仕組みは？</button>
-      <button class="suggestion-chip" onclick="sendSuggestion(this)">AIガバナンスの論点は？</button>
-      </div>
+      <div class="suggestions" id="suggestions"></div>
     </div>
   </div>
 
@@ -402,11 +398,28 @@ textarea::placeholder { color: #bbb; }
   const GAS_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbyRmJ0BUzllzyP5nVPzz5kbzddOmMrbFiII28HgFrNuGxBRLrvQYf3qDu0y_4pXGcHX/exec';
   const SHARED_SECRET = 'KsXaOFyluiW9omxeR1xjUjKvtNN4jPGH';
   const EXAM_ID = 'gkentei';
-// GAS_WEBAPP_URL / SHARED_SECRET / EXAM_ID は build_html.js がビルド時にこのファイルの
-// 直前へ `const GAS_WEBAPP_URL = '...';` 等として注入する。
+  const ALL_SUGGESTIONS = ["過学習とは？","Transformerの仕組みは？","AIガバナンスの論点は？","ニューラルネットワークの基礎を教えてください","機械学習の流れを説明してください","教師あり学習と教師なし学習の違いは？","CNNについて説明してください","RNNとLSTMの違いは？","生成モデルとは何ですか？","AIの倫理的問題について教えてください"];
+// GAS_WEBAPP_URL / SHARED_SECRET / EXAM_ID / ALL_SUGGESTIONS は build_html.js がビルド時に
+// このファイルの直前へ `const GAS_WEBAPP_URL = '...';` 等として注入する。
 
 let isLoading = false;
 let history = []; // 会話履歴 [{ role:'user'|'bot', text }]
+
+// サジェスト質問はビルド時ではなく、ここ（訪問者のブラウザ）で毎回ランダムに5問選ぶ。
+// GitHub Pagesは静的サイトで、ビルド時に選ぶと次のデプロイまで全訪問者に同じ5問が
+// 固定表示されてしまうため。
+function renderSuggestions(all, count) {
+  const box = document.getElementById('suggestions');
+  const picked = [...all].sort(() => Math.random() - 0.5).slice(0, count);
+  picked.forEach((text) => {
+    const btn = document.createElement('button');
+    btn.className = 'suggestion-chip';
+    btn.textContent = text;
+    btn.onclick = () => sendSuggestion(btn);
+    box.appendChild(btn);
+  });
+}
+renderSuggestions(ALL_SUGGESTIONS, 5);
 
 const WELCOME_HTML = document.getElementById('messages').innerHTML;
 

@@ -30,10 +30,6 @@ function buildChatPage(exam) {
   const css = read('src/chat-style.css');
   const js = read('src/chat-app.js');
 
-  const suggestionsHtml = exam.suggestions
-    .map((s) => `      <button class="suggestion-chip" onclick="sendSuggestion(this)">${escapeHtml(s)}</button>`)
-    .join('\n');
-
   const chaptersHtml = exam.chapters
     .map(
       (name, i) => `          <button class="chapter-item" onclick="sendChapter(this)">
@@ -53,7 +49,7 @@ function buildChatPage(exam) {
     .replace(/\{\{WELCOME_HEADLINE\}\}/g, exam.welcomeHeadline)
     .replace(/\{\{WELCOME_BODY\}\}/g, exam.welcomeBody)
     .replace('{{CHAPTERS_HTML}}', chaptersHtml)
-    .replace('{{SUGGESTIONS_HTML}}', suggestionsHtml)
+    .replace('{{SUGGESTIONS_JSON}}', () => JSON.stringify(exam.suggestions).replace(/</g, '\\u003c'))
     .replace(/\{\{EXAM_ID\}\}/g, exam.id)
     .replace(/\{\{GAS_WEBAPP_URL\}\}/g, config.GAS_WEBAPP_URL)
     .replace(/\{\{SHARED_SECRET\}\}/g, config.SHARED_SECRET);
