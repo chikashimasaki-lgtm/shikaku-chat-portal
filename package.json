@@ -1,0 +1,9 @@
+{
+  "name": "shikaku-chat-portal",
+  "private": true,
+  "version": "1.0.0",
+  "description": "資格学習チャットボットポータル（FP3級・G検定・簿記3級）",
+  "scripts": {
+    "build": "node build_html.js"
+  }
+}

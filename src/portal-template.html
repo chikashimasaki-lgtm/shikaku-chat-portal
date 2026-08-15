@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>資格学習チャットボットポータル</title>
+  <style>
+/*__PORTAL_STYLE__*/
+  </style>
+</head>
+<body>
+  <div class="portal">
+    <div class="portal-header">
+      <h1>📚 資格学習チャットボットポータル</h1>
+      <p>資格ごとの要点ナレッジに基づいて質問に答えるチャットボット集です</p>
+    </div>
+    <div class="cards">
+{{CARDS_HTML}}
+    </div>
+    <p class="footer-note">
+      質問内容と会話履歴はチャットボットのバックエンド（Google Apps Script）を経由してGoogle Geminiに送信されます。<br>
+      それ以外の外部送信はありません。
+    </p>
+  </div>
+</body>
+</html>

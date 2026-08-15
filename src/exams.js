@@ -1,0 +1,43 @@
+// ビルド時にのみ読み込まれる、資格ごとのUI設定。
+// path はポータルからのリンク先兼ビルド出力先ディレクトリ名。
+module.exports = [
+  {
+    id: 'fp3',
+    path: 'fp3',
+    title: 'FP3級チャット',
+    shortTitle: 'FP3級',
+    icon: '💰',
+    themeColor: '#1c6f4a',
+    themeColorDark: '#0f3f29',
+    welcomeHeadline: 'FP3級の質問にお答えします',
+    welcomeBody: 'ライフプランニング・保険・金融資産運用・税金・不動産・相続など、FP3級の頻出論点について聞いてください。',
+    portalDesc: 'ライフプランニング・保険・税金・不動産・相続など、FP3級の頻出論点をチャットで質問できます。',
+    suggestions: ['係数の使い分けを教えて', '住宅ローン控除の要件は？', '相続時精算課税とは？'],
+  },
+  {
+    id: 'gkentei',
+    path: 'gkentei',
+    title: 'G検定チャット',
+    shortTitle: 'G検定',
+    icon: '🤖',
+    themeColor: '#2b4c9e',
+    themeColorDark: '#152a5c',
+    welcomeHeadline: 'G検定の質問にお答えします',
+    welcomeBody: 'AIの歴史・機械学習・ディープラーニング・代表的な手法・法律や倫理など、G検定の頻出論点について聞いてください。',
+    portalDesc: 'AIの歴史・機械学習・ディープラーニング・法律や倫理など、G検定の頻出論点をチャットで質問できます。',
+    suggestions: ['過学習とは？', 'Transformerの仕組みは？', 'AIガバナンスの論点は？'],
+  },
+  {
+    id: 'boki3',
+    path: 'boki3',
+    title: '簿記3級チャット',
+    shortTitle: '簿記3級',
+    icon: '📊',
+    themeColor: '#8a4b2b',
+    themeColorDark: '#4d2814',
+    welcomeHeadline: '簿記3級の質問にお答えします',
+    welcomeBody: '仕訳・現金預金・商品売買・手形・固定資産・決算整理など、簿記3級の頻出論点について聞いてください。',
+    portalDesc: '仕訳・現金預金・商品売買・固定資産・決算整理など、簿記3級の頻出論点をチャットで質問できます。',
+    suggestions: ['貸倒引当金の仕訳は？', '精算表の作り方は？', '売上原価の計算方法は？'],
+  },
+];

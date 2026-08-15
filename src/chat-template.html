@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>{{TITLE}}</title>
+  <style>
+    :root {
+      --theme-color: {{THEME_COLOR}};
+      --theme-color-dark: {{THEME_COLOR_DARK}};
+    }
+/*__CHAT_STYLE__*/
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="header-icon">{{ICON}}</div>
+    <div class="header-text">
+      <h1>{{TITLE}}</h1>
+      <p>{{WELCOME_HEADLINE}}</p>
+    </div>
+    <div class="header-actions">
+      <a class="header-btn" href="../">← ポータル</a>
+      <button class="header-btn" onclick="resetChat()">🏠 最初に戻る</button>
+    </div>
+  </div>
+
+  <div class="messages" id="messages">
+    <div class="welcome">
+      <h2>👋 こんにちは！</h2>
+      <p>{{WELCOME_BODY}}</p>
+      <div class="suggestions" id="suggestions">
+{{SUGGESTIONS_HTML}}
+      </div>
+    </div>
+  </div>
+
+  <div class="input-area">
+    <textarea
+      id="userInput"
+      placeholder="質問を入力してください..."
+      rows="1"
+      onkeydown="handleKey(event)"
+      oninput="autoResize(this)"
+    ></textarea>
+    <button class="send-btn" id="sendBtn" onclick="sendMessage()">➤</button>
+  </div>
+</div>
+
+<script>
+  const GAS_WEBAPP_URL = '{{GAS_WEBAPP_URL}}';
+  const SHARED_SECRET = '{{SHARED_SECRET}}';
+  const EXAM_ID = '{{EXAM_ID}}';
+/*__CHAT_APP__*/
+</script>
+</body>
+</html>
